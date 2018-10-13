@@ -1,0 +1,69 @@
+html, body{
+    height:100%;
+    
+}
+
+body{
+    width:100%;
+    height:auto;
+    background-image: url("../images/cover.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hide{
+    display: none;
+}
+
+
+
+h3{
+    color:white;
+}
+
+
+.wrapper {
+    position: relative;
+    color:red;
+    display:inline-block;
+    width:180px;
+    
+}
+
+.phase1, .phase2Hero, .phase2Enemy{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    flex:wrap;
+}
+
+
+.side{
+   white-space:normal;
+}
+
+img{
+    padding:20px;
+    border:1px solid red;
+    background-color:white;
+    
+    z-index: 1;
+    
+
+}
+
+.txt{
+    position: absolute;   
+    bottom: -1px;
+    left: 50%;
+    z-index: 5;
+    color:green;
+    font-weight:900;
+    margin-bottom:0;
+}
+
+
+
+
+
+

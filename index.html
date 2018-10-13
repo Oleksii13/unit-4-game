@@ -7,12 +7,34 @@
     <title>Star Wars Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     <link rel="icon" href="assets/images/icon.ico">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
 
 </head>
 
 <body>
+    <h3 class="text-white">Choose your side of the Force:</h3>
+   
+        <div class="phase1">
+            <div id="evil" class="side"></div>
+            <div id="good" class="side"></div>
+        </div>
+        <div class="phase2Hero">
+            <div id="hero" class="" ></div>
+        </div>
+        <div class="phase2Enemy">
+            <div id="enemy" class=""></div>
+        </div>
+        <button class="hide"> Attack!</button>
+        <div class="phase3">
+            <div id="defence"></div>
+
+        </div>
+    
 
 
 
@@ -21,10 +43,7 @@
 
 
 
-
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="assets/javascript/game.js"></script>
+    <script src="assets/javascript/game.js"></script>
 </body>
 
 </html>
