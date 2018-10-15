@@ -1,4 +1,7 @@
 $(function() {
+  $("#reset").click(function() {
+    document.location.reload();
+  });
   var evil = $("#evil");
   var good = $("#good");
   var hero = $("#hero");
@@ -6,16 +9,16 @@ $(function() {
   var defence = $("#defence");
   var bool = true;
   var stop = true;
-
- 
+  var counter = 0;
+  var arr = ["a", "b", "c"];
 
   var hpp;
 
-  // var youHp = "";
-  // var youAp = "";
-  // var inc = "";
-  // var hitHp = "";
-  // var hitCap = "";
+  var youHp;
+  var youAp;
+  var apInc;
+  var hitHp;
+  var hitCap;
 
   function Char(side, name, img, hp, ap, cap) {
     this.side = side;
@@ -51,11 +54,12 @@ $(function() {
   function character(color, side, select) {
     $.each(color, function(index, value) {
       var img = $("<img>");
+
       img.addClass(select);
 
       img.attr({
         src: value.img,
-        // value: value.hp,
+
         ap: value.ap,
         cap: value.cap,
         name: value.name,
@@ -63,6 +67,8 @@ $(function() {
       });
       hpp = value.hp;
       var wrapper = $("<p class='wrapper'></p>");
+      wrapper.attr("class", arr[counter]);
+      counter++;
       var health = $("<p class='txt'>" + hpp + "</p>");
       wrapper.appendTo(side);
       wrapper.wrapInner(img);
@@ -75,16 +81,17 @@ $(function() {
   // ========================================================================
   $(".force").on("click", function() {
     $(".phase1").empty();
+    counter = 0;
 
-    $("h3").text("");
-    hero.html("<h3>Your hero:</h3>");
+    $("h1").text("");
+    hero.html("<h1>Your hero:</h1>");
     var img = $("<img>");
 
-    var wrapper = $("<p class='wrapper'></p>");
+    var wrap = $("<p class='wrap'></p>");
     img.attr({
       class: "you",
       src: $(this).attr("src"),
-      // value: $(this).attr("value"),
+
       ap: $(this).attr("ap"),
       cap: $(this).attr("cap"),
       name: $(this).attr("name"),
@@ -103,14 +110,13 @@ $(function() {
         }
       });
     }
-    // var value = img.attr("value");
 
-    var health = $("<p class='txt'>" + hpp + "</p>");
-    wrapper.appendTo(hero);
-    wrapper.wrapInner(img);
-    health.appendTo(wrapper);
+    var health = $("<p class='hpHero'>" + hpp + "</p>");
+    wrap.appendTo(hero);
+    wrap.wrapInner(img);
+    health.appendTo(wrap);
 
-    enemy.html("<h3>Choose whom to attack:</h3>");
+    enemy.html("<h1>Enemies available to attack:</h1>");
 
     if ($(this).attr("class") == "red-force force") {
       character(blue, enemy, "blue-force hit");
@@ -123,9 +129,13 @@ $(function() {
       stop = true;
 
       if (bool == true) {
-        $(this).remove();
+        $(this)
+          .parent()
+          .remove();
 
-        $("button").removeClass("hide");
+        $("#attack").removeClass("hide");
+        $("h2").removeClass("hide");
+        $(".read").html(" ");
 
         var img = $("<img>");
         var wrapper = $("<p class='wrapper'></p>");
@@ -154,7 +164,7 @@ $(function() {
           });
         }
 
-        var health = $("<p class='txt'>" + hpp + "</p>");
+        var health = $("<p class='hpEnemy'>" + hpp + "</p>");
         wrapper.appendTo(defence);
         wrapper.wrapInner(img);
         health.appendTo(wrapper);
@@ -164,99 +174,132 @@ $(function() {
       // =+++++++++++++++++++++++++++++++++++==================
 
       // =========================================================
-      $("button").on("click", function() {
-        if (stop === true) {
-          // var you = $(".you");
-          // var badBoy = $(".def");
-          var youHp;
-          var youAp;
-          var apInc;
-          var hitHp;
-          var hitCap;
 
-          if ($(".you").attr("side") == "red") {
-            $.each(red, function(index, val) {
-              if ($(".you").attr("name") == val.name) {
-                youHp = val.hp;
-                youAp = val.ap;
-                apInc = parseInt($(".you").attr("ap"));
-
-                $.each(blue, function(index, value) {
-                  if ($(".def").attr("name") == value.name) {
-                    hitHp = value.hp;
-                    hitCap = value.cap;
-                    hitHp -= youAp;
-                    value.hp = hitHp;
-
-                    console.log(hitHp);
-                    console.log(hitCap);
-                    if (hitHp <= 0) {
-                      stop = false;
-                      bool = true;
-
-                      $("#defence").empty();
-                    }
-                  }
-                });
-
-                youHp -= hitCap;
-                val.hp = youHp;
-                val.ap += apInc;
-
-                console.log(youHp);
-                console.log(youAp);
-                console.log("-----");
-
-                if (youHp <= 0) {
-                  stop = false;
-                }
-              }
-            });
-          }
-
-          // ++++=========================================================
-          else if (you.attr("side") == "blue") {
-            $.each(blue, function(index, value) {
-              if (you.attr("name") == value.name) {
-                youHp = value.hp;
-                youAp = value.ap;
-                apInc = parseInt(you.attr("ap"));
-
-                $.each(red, function(index, value) {
-                  if (badBoy.attr("name") == value.name) {
-                    hitHp = value.hp;
-                    hitCap = value.cap;
-                    hitHp -= youAp;
-                    value.hp = hitHp;
-
-                    console.log(hitHp);
-                    console.log(hitCap);
-                    if (hitHp <= 0) {
-                      stop = false;
-                      bool = true;
-                      $("#defence").empty();
-                      console.log(youAp);
-                    }
-                  }
-                });
-
-                youHp -= hitCap;
-                value.hp = youHp;
-                value.ap += apInc;
-
-                console.log(youHp);
-                console.log(youAp);
-                console.log("-----");
-                if (youHp <= 0) {
-                  stop = false;
-                }
-              }
-            });
-          }
-        } else {
-          return false;
-        }
-      });
+      // .hit
     });
+    $("button").on("click", function(event) {
+      if (stop === true) {
+        
+        var you = $(".you");
+        var badBoy = $(".def");
+        
+        if ($(".you").attr("side") == "red") {
+          $.each(red, function(index, val) {
+            if ($(".you").attr("name") == val.name) {
+              youHp = val.hp;
+              youAp = val.ap;
+              apInc = parseInt($(".you").attr("ap"));
+
+              $.each(blue, function(index, value) {
+                if ($(".def").attr("name") == value.name) {
+                  hitHp = value.hp;
+                  hitCap = value.cap;
+                  hitHp -= youAp;
+                  value.hp = hitHp;
+
+                  $(".hpEnemy").text(hitHp);
+
+                  if (hitHp <= 0) {
+                    stop = false;
+                    bool = true;
+                    
+                    $(".read").html(
+                      "You have defeated <span class='sBlue'>" +
+                        $(".def").attr("name") +
+                        "</span>, you can choose to fight another enemy!"
+                    );
+
+                    $("#defence").empty();
+                    $("#reset").removeClass("hide");
+                  }
+                }
+              });
+
+              youHp -= hitCap;
+              if(hitHp>0){
+              $(".read").html(
+                "You attacked <span class='sBlue'>" +
+                  $(".def").attr("name") +
+                  "</span> for " +
+                  youAp +
+                  " \ndamage!\n<span class='sBlue'>" +
+                  $(".def").attr("name") +
+                  "</span> attacked you back for " +
+                  hitCap +
+                  " damage!"
+              );
+            }
+              val.hp = youHp;
+              val.ap += apInc;
+
+              $(".hpHero").text(youHp);
+
+              if (youHp <= 0) {
+                stop = false;
+                $("#reset").removeClass("hide");
+              }
+            }
+          });
+        }
+
+        // ++++=========================================================
+        else if (you.attr("side") == "blue") {
+          $.each(blue, function(index, value) {
+            if (you.attr("name") == value.name) {
+              youHp = value.hp;
+              youAp = value.ap;
+              apInc = parseInt(you.attr("ap"));
+
+              $.each(red, function(index, value) {
+                if (badBoy.attr("name") == value.name) {
+                  hitHp = value.hp;
+                  hitCap = value.cap;
+                  hitHp -= youAp;
+                  value.hp = hitHp;
+                  $(".hpEnemy").text(hitHp);
+
+                  if (hitHp <= 0) {
+                    stop = false;
+                    bool = true;
+                    $(".read").html(
+                      "You have defeated <span class='sRed'>" +
+                        $(".def").attr("name") +
+                        "</span>, you can choose to fight another enemy!"
+                    );
+                    $("#defence").empty();
+                    $("#reset").removeClass("hide");
+                  }
+                }
+              });
+
+              youHp -= hitCap;
+              if(hitHp>0){
+                $(".read").html(
+                  "You attacked <span class='sRed'>" +
+                    $(".def").attr("name") +
+                    "</span> for " +
+                    youAp +
+                    " \ndamage!\n<span class='sRed'>" +
+                    $(".def").attr("name") +
+                    "</span> attacked you back for " +
+                    hitCap +
+                    " damage!"
+                );
+              }
+              value.hp = youHp;
+              value.ap += apInc;
+              $(".hpHero").text(youHp);
+
+              if (youHp <= 0) {
+                stop = false;
+                $("#reset").removeClass("hide");
+              }
+            }
+          });
+        }
+      }
+      // button
+    });
+    // .focus
   });
 });
