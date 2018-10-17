@@ -1,14 +1,15 @@
 $(function() {
+  // reset button
   $("#reset").click(function() {
     document.location.reload();
   });
+  // played with  sound effect when user attacks and choices the hero and enemies
   var objAttack = document.createElement("audio");
   objAttack.src = "assets/audio/attack.mp3";
   objAttack.volume = 1;
   objAttack.autoPlay = false;
   objAttack.preLoad = true;
   objAttack.controls = true;
-
   var objStart = document.createElement("audio");
   objStart.src = "assets/audio/start.mp3";
   objStart.volume = 1;
@@ -16,23 +17,30 @@ $(function() {
   objStart.preLoad = true;
   objStart.controls = true;
 
+  // variables that choose DOM elements
   var evil = $("#evil");
   var good = $("#good");
   var hero = $("#hero");
   var enemy = $("#enemy");
   var defence = $("#defence");
+
+  // variables to check condition for not repeating clicks
   var bool = true;
   var stop = true;
+  // With this I am checking if all enemies are defeated
   var counter = 0;
   var arr = ["a", "b", "c"];
 
+  // var for print HP
   var hpp;
-
+  // variables to work with inside Click button event, attack action
   var youHp;
   var youAp;
   var apInc;
   var hitHp;
   var hitCap;
+
+  // object constructor to make characters
 
   function Char(side, name, img, hp, ap, cap) {
     this.side = side;
@@ -43,6 +51,7 @@ $(function() {
     this.cap = cap;
   }
 
+  // object of each character
   var assassin = new Char(
     "red",
     "assassin",
@@ -62,8 +71,12 @@ $(function() {
 
   var boss = new Char("blue", "boss", "assets/images/boss.jpg", 200, 6, 8);
 
+  // 2 arrays of characters for choosing side
+
   var red = [assassin, maul, vader];
   var blue = [luck, yoda, boss];
+
+  // repeating action to shows heroes or enemies on the screen
 
   function character(color, side, select) {
     $.each(color, function(index, value) {
@@ -90,9 +103,11 @@ $(function() {
     });
   }
   // ------------------------------------------------------------------------
+  // calling above function
   character(red, evil, "red-force force");
   character(blue, good, "blue-force force");
   // ========================================================================
+  // show character on the screen which one was chosen by user with hp and other attributes
   $(".force").on("click", function() {
     objStart.play();
     $(".phase1").empty();
@@ -139,7 +154,7 @@ $(function() {
       character(red, enemy, "red-force hit");
     }
     // -=====================================================================================
-
+    // user choose enemies whom he wants to attack and then image is showing in another place with all attributes
     $(".hit").on("click", function() {
       objStart.play();
       stop = true;
@@ -193,10 +208,11 @@ $(function() {
 
       // .hit
     });
+
+    // action when click attack button
     $("button").on("click", function(event) {
       objAttack.play();
       if (stop === true) {
-        
         var you = $(".you");
         var badBoy = $(".def");
 
