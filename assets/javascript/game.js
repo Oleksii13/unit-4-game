@@ -2,6 +2,20 @@ $(function() {
   $("#reset").click(function() {
     document.location.reload();
   });
+  var objAttack = document.createElement("audio");
+  objAttack.src = "assets/audio/attack.mp3";
+  objAttack.volume = 1;
+  objAttack.autoPlay = false;
+  objAttack.preLoad = true;
+  objAttack.controls = true;
+
+  var objStart = document.createElement("audio");
+  objStart.src = "assets/audio/start.mp3";
+  objStart.volume = 1;
+  objStart.autoPlay = false;
+  objStart.preLoad = true;
+  objStart.controls = true;
+
   var evil = $("#evil");
   var good = $("#good");
   var hero = $("#hero");
@@ -33,20 +47,20 @@ $(function() {
     "red",
     "assassin",
     "assets/images/assassin.jpg",
-    150,
+    110,
     5,
-    1
+    10
   );
 
-  var maul = new Char("red", "maul", "assets/images/maul.jpg", 250, 5, 1);
+  var maul = new Char("red", "maul", "assets/images/maul.jpg", 150, 3, 7);
 
-  var vader = new Char("red", "vader", "assets/images/vader.jpg", 350, 5, 1);
+  var vader = new Char("red", "vader", "assets/images/vader.jpg", 200, 6, 8);
 
-  var luck = new Char("blue", "luck", "assets/images/luck.jpg", 150, 5, 1);
+  var luck = new Char("blue", "luck", "assets/images/luck.jpg", 110, 5, 10);
 
-  var yoda = new Char("blue", "yoda", "assets/images/yoda.jpg", 250, 5, 1);
+  var yoda = new Char("blue", "yoda", "assets/images/yoda.jpg", 150, 3, 7);
 
-  var boss = new Char("blue", "boss", "assets/images/boss.jpg", 350, 5, 1);
+  var boss = new Char("blue", "boss", "assets/images/boss.jpg", 200, 6, 8);
 
   var red = [assassin, maul, vader];
   var blue = [luck, yoda, boss];
@@ -80,6 +94,7 @@ $(function() {
   character(blue, good, "blue-force force");
   // ========================================================================
   $(".force").on("click", function() {
+    objStart.play();
     $(".phase1").empty();
     counter = 0;
 
@@ -126,6 +141,7 @@ $(function() {
     // -=====================================================================================
 
     $(".hit").on("click", function() {
+      objStart.play();
       stop = true;
 
       if (bool == true) {
@@ -178,11 +194,12 @@ $(function() {
       // .hit
     });
     $("button").on("click", function(event) {
+      objAttack.play();
       if (stop === true) {
         
         var you = $(".you");
         var badBoy = $(".def");
-        
+
         if ($(".you").attr("side") == "red") {
           $.each(red, function(index, val) {
             if ($(".you").attr("name") == val.name) {
@@ -202,7 +219,7 @@ $(function() {
                   if (hitHp <= 0) {
                     stop = false;
                     bool = true;
-                    
+
                     $(".read").html(
                       "You have defeated <span class='sBlue'>" +
                         $(".def").attr("name") +
@@ -210,25 +227,30 @@ $(function() {
                     );
 
                     $("#defence").empty();
-                    $("#reset").removeClass("hide");
+
+                    if ($(".hit").is("img") == false) {
+                      $("#reset").removeClass("hide");
+                      $(".read").html("You Won!!!  Game Over!!!");
+                      $(".defender").addClass("hide");
+                    }
                   }
                 }
               });
 
               youHp -= hitCap;
-              if(hitHp>0){
-              $(".read").html(
-                "You attacked <span class='sBlue'>" +
-                  $(".def").attr("name") +
-                  "</span> for " +
-                  youAp +
-                  " \ndamage!\n<span class='sBlue'>" +
-                  $(".def").attr("name") +
-                  "</span> attacked you back for " +
-                  hitCap +
-                  " damage!"
-              );
-            }
+              if (hitHp > 0) {
+                $(".read").html(
+                  "You attacked <span class='sBlue'>" +
+                    $(".def").attr("name") +
+                    "</span> for " +
+                    youAp +
+                    " \ndamage!\n<span class='sBlue'>" +
+                    $(".def").attr("name") +
+                    "</span> attacked you back for " +
+                    hitCap +
+                    " damage!"
+                );
+              }
               val.hp = youHp;
               val.ap += apInc;
 
@@ -237,6 +259,8 @@ $(function() {
               if (youHp <= 0) {
                 stop = false;
                 $("#reset").removeClass("hide");
+                $(".read").html("You been defeated!!!  Game Over!!!");
+                $(".defender").addClass("hide");
               }
             }
           });
@@ -267,13 +291,18 @@ $(function() {
                         "</span>, you can choose to fight another enemy!"
                     );
                     $("#defence").empty();
-                    $("#reset").removeClass("hide");
+
+                    if ($(".hit").is("img") == false) {
+                      $(".read").html("You Won!!!  Game Over!!!");
+                      $("#reset").removeClass("hide");
+                      $(".defender").addClass("hide");
+                    }
                   }
                 }
               });
 
               youHp -= hitCap;
-              if(hitHp>0){
+              if (hitHp > 0) {
                 $(".read").html(
                   "You attacked <span class='sRed'>" +
                     $(".def").attr("name") +
@@ -293,6 +322,8 @@ $(function() {
               if (youHp <= 0) {
                 stop = false;
                 $("#reset").removeClass("hide");
+                $(".read").html("You been defeated!!!  Game Over!!!");
+                $(".defender").addClass("hide");
               }
             }
           });

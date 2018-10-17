@@ -1,7 +1,7 @@
 html, body{
     height:100%;
     width:100%;
-    
+    font-size: 20px;
 }
 
 main:after {
@@ -53,13 +53,13 @@ main:after {
 
 
 h1, h2{
-    color:#fff;
+    color:#000;
     font-weight: 900;
     text-align: start;
 }
 
 .read{
-    color:#fff;
+    color:#000;
     font-weight: 900;
     text-align: start;
 }
