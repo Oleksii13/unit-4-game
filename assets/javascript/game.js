@@ -1,3 +1,10 @@
+// I made this program to dirty, a lot of unnecessary moves and bunch of codes. Still does not have 
+// good skills with pseudo coding. But I am practising.
+// In this program at the beginning I worked mostly with DOM elements, but later TA told me so it is better 
+// to work first with JS, and then add DOM, to make it more clear and debuggable.  
+
+
+
 $(function() {
   // reset button
   $("#reset").click(function() {
@@ -79,6 +86,7 @@ $(function() {
   // repeating action to shows heroes or enemies on the screen
 
   function character(color, side, select) {
+    // checking each array's element depends of what arguments were passed
     $.each(color, function(index, value) {
       var img = $("<img>");
 
@@ -211,10 +219,15 @@ $(function() {
 
     // action when click attack button
     $("button").on("click", function(event) {
+      // music on attack
       objAttack.play();
+      // check if my hp or enemy  hp more than 0 then we can go further
       if (stop === true) {
         var you = $(".you");
         var badBoy = $(".def");
+
+        // check who is your hero
+        // If my hero is red guy
 
         if ($(".you").attr("side") == "red") {
           $.each(red, function(index, val) {
@@ -222,6 +235,9 @@ $(function() {
               youHp = val.hp;
               youAp = val.ap;
               apInc = parseInt($(".you").attr("ap"));
+
+              // check who is your enemy
+              // inside with click button I update numbers, HP, AP... and print what is going on on the screen
 
               $.each(blue, function(index, value) {
                 if ($(".def").attr("name") == value.name) {
@@ -283,6 +299,7 @@ $(function() {
         }
 
         // ++++=========================================================
+        // If my hero is blue guy
         else if (you.attr("side") == "blue") {
           $.each(blue, function(index, value) {
             if (you.attr("name") == value.name) {
